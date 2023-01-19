@@ -3,25 +3,13 @@ package pl.javastart.task;
 class GrossPriceCalculator {
 
     double grossPrice(Product product) {
-        double universalVat = 28;
-        if (product.getCategory() != null) {
-            switch (product.getCategory().getName()) {
-                case "Słodycze":
-                case "Chemia":
-                    return grossPriceCalculator(product);
-                default:
-                    return grossPriceCalculator2(product, universalVat);
-            }
+
+        if (product.getCategory() != null && (product.getCategory().getName() == "Słodycze" ||
+                product.getCategory().getName() == "Chemia")) {
+            return product.getNetPrice() + (product.getNetPrice() * (product.getCategory().getVat() / 100));
         } else {
-            return grossPriceCalculator2(product, universalVat);
+            double universalVat = 28;
+            return product.getNetPrice() + (product.getNetPrice() * (universalVat / 100));
         }
-    }
-
-    private double grossPriceCalculator(Product product) {
-        return product.getNetPrice() + (product.getNetPrice() * (product.getCategory().getVat() / 100));
-    }
-
-    private double grossPriceCalculator2(Product product, double universalVat) {
-        return product.getNetPrice() + (product.getNetPrice() * (universalVat / 100));
     }
 }
